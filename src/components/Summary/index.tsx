@@ -3,8 +3,39 @@ import { Container } from './styles';
 import incomeImg from '../../assets/income.svg';
 import outcomeImg from '../../assets/outcome.svg';
 import totalImg from '../../assets/total.svg';
+import { useTransactions } from '../../hooks/useTransactions';
+import { formatToCurrency } from '../../utils/formatToCurrency';
 
 export const Summary = () => {
+  const { transactions } = useTransactions();
+
+  console.log({ transactions });
+
+  const summary = transactions.reduceRight(
+    (acc, transaction) => {
+      if (transaction.type === 'deposit') {
+        return {
+          ...acc,
+          deposits: acc.deposits + transaction.amount,
+          total: acc.total + transaction.amount,
+        };
+      } else {
+        return {
+          ...acc,
+          withdraws: acc.withdraws + transaction.amount,
+          total: acc.total - transaction.amount,
+        };
+      }
+    },
+    {
+      deposits: 0,
+      withdraws: 0,
+      total: 0,
+    }
+  );
+
+  console.log(summary);
+
   return (
     <Container>
       <div>
@@ -12,21 +43,21 @@ export const Summary = () => {
           <p>Entradas</p>
           <img src={incomeImg} alt="Entradas" />
         </header>
-        <strong>R$1000,00</strong>
+        <strong>{formatToCurrency(summary.deposits)}</strong>
       </div>
       <div>
         <header>
           <p>Saídas</p>
           <img src={outcomeImg} alt="Saídas" />
         </header>
-        <strong>- R$500,00</strong>
+        <strong>{formatToCurrency(summary.withdraws)}</strong>
       </div>
       <div>
         <header>
           <p>Total</p>
           <img src={totalImg} alt="Total" />
         </header>
-        <strong>R$500,00</strong>
+        <strong>{formatToCurrency(summary.total)}</strong>
       </div>
     </Container>
   );

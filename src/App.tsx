@@ -5,6 +5,7 @@ import { createServer, Model } from 'miragejs';
 import Modal from 'react-modal';
 import { useState } from 'react';
 import { NewTransactionModal } from './components/NewTransactionModal';
+import { TransactionsProvider } from './hooks/useTransactions';
 
 Modal.setAppElement('#root');
 
@@ -45,8 +46,7 @@ createServer({
 
     this.post('/transactions', (schema, request) => {
       const data = JSON.parse(request.requestBody);
-
-      return schema.create('trasaction', data);
+      return schema.create('transaction', data);
     });
   },
 });
@@ -63,7 +63,7 @@ export function App() {
     setIsNewTransactionModalOpen(false);
   }
   return (
-    <>
+    <TransactionsProvider>
       <Header handleOpenNewTransactionModal={handleOpenNewTransactionModal} />
       <Dashboard />
 
@@ -72,6 +72,6 @@ export function App() {
         onRequestClose={handleCloseNewTransactionModal}
       />
       <GlobalStyle />
-    </>
+    </TransactionsProvider>
   );
 }
