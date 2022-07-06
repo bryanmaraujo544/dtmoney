@@ -92,4 +92,9 @@ export const InputGroup = styled.div`
       margin-top: 1rem;
     }
   }
+
+  span {
+    font-size: 0.8rem;
+    color: var(--background);
+  }
 `;
