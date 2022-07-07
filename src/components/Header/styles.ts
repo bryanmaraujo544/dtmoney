@@ -1,3 +1,4 @@
+import { darken } from 'polished';
 import styled from 'styled-components';
 
 export const Container = styled.header`
@@ -26,27 +27,47 @@ export const Content = styled.div`
       height: 3rem;
       display: flex;
       align-items: center;
-      padding: 0 2rem;
+      margin-left: 2rem;
+      margin-right: 1rem;
+    }
+
+    .sign-out-btn {
+      background: transparent;
+      border: none;
+      display: flex;
+      align-items: center;
+
+      .icon {
+        transition: color 0.2s;
+        color: var(--shape);
+        &:hover {
+          color: ${darken(0.1, '#fff')};
+        }
+
+        &:active {
+          color: var(--shape);
+        }
+      }
     }
   }
+`;
 
-  button {
-    font-size: 1rem;
-    color: #fff;
-    background: var(--blue-light);
-    border: 0;
-    padding: 0 2rem;
-    border-radius: 0.25rem;
-    height: 3rem;
+export const NewTransactionBtn = styled.button`
+  font-size: 1rem;
+  color: #fff;
+  background: var(--blue-light);
+  border: 0;
+  padding: 0 2rem;
+  border-radius: 0.25rem;
+  height: 3rem;
 
-    transition: filter 0.2s;
+  transition: filter 0.2s;
 
-    &:hover {
-      filter: brightness(0.9);
-    }
+  &:hover {
+    filter: brightness(0.9);
+  }
 
-    &:active {
-      filter: brightness(1);
-    }
+  &:active {
+    filter: brightness(1);
   }
 `;
