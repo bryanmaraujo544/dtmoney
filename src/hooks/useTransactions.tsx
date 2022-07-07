@@ -5,14 +5,16 @@ import {
   ReactNode,
   useContext,
 } from 'react';
+import { toast } from 'react-toastify';
 import {
   useCreateTransactionMutation,
+  useDeleteTransactionMutation,
   useGetTransactionsByUserIdQuery,
 } from '../graphql/generated';
 import { useUser } from './useUser';
 
 interface Transaction {
-  _id: number;
+  _id: string;
   title: string;
   type: 'deposit' | 'withdraw';
   category: string;
@@ -27,6 +29,7 @@ interface TransactionInput extends Omit<Transaction, '_id' | 'createdAt'> {
 interface TransactionsContextData {
   transactions: Transaction[];
   createTransaction: (transaction: TransactionInput) => Promise<void>;
+  deleteTransaction: (id: string) => Promise<void>;
 }
 
 const TransactionsContext = createContext<TransactionsContextData>(
@@ -46,6 +49,8 @@ export const TransactionsProvider = ({ children }: { children: ReactNode }) => {
   });
   const [createTransaction, { loading: isCreatingTransaction }] =
     useCreateTransactionMutation();
+  const [deleteTransaction, { loading: isDeletingTransaction }] =
+    useDeleteTransactionMutation();
 
   useEffect(() => {
     const userTransactions =
@@ -82,9 +87,32 @@ export const TransactionsProvider = ({ children }: { children: ReactNode }) => {
     setTransactions((prev) => [...prev, transaction]);
   }
 
+  async function handleDeleteTransaction(id: string) {
+    try {
+      const { data } = await deleteTransaction({
+        variables: {
+          id,
+        },
+      });
+
+      if (data?.deleteTransaction === false) {
+        toast.error('Algo deu errado');
+        return;
+      }
+
+      setTransactions((prev) => prev.filter(({ _id }) => _id !== id));
+    } catch (err: any) {
+      toast.error(err.message);
+    }
+  }
+
   return (
     <TransactionsContext.Provider
-      value={{ transactions, createTransaction: handleCreateTransaction }}
+      value={{
+        transactions,
+        createTransaction: handleCreateTransaction,
+        deleteTransaction: handleDeleteTransaction,
+      }}
     >
       {children}
     </TransactionsContext.Provider>

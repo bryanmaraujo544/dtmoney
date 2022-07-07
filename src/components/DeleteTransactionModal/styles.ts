@@ -1,11 +1,6 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
   h2 {
     color: var(--text-title);
     text-align: center;
@@ -24,7 +19,8 @@ export const Button = styled.button<{ isPrimary?: boolean }>`
   border: 0;
   background: ${({ isPrimary }) =>
     isPrimary ? 'var(--blue)' : 'transparent)'};
-  border: ${({ isPrimary }) => (isPrimary ? '0' : '2px solid var(--blue)')};
+  border: ${({ isPrimary }) =>
+    isPrimary ? '0' : '2px solid var(--text-title)'};
   height: 3rem;
   font-weight: 600;
   font-size: 1.1rem;

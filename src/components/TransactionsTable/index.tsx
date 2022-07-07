@@ -1,8 +1,17 @@
+import { PencilSimple, TrashSimple } from 'phosphor-react';
 import { useTransactions } from '../../hooks/useTransactions';
 
-import { Container } from './styles';
+import { Container, ActionBtn } from './styles';
 
-export const TransactionsTable = () => {
+interface Props {
+  handleOpenDeleteTransactionModal: (transactionId: string) => void;
+  handleOpenEditTransactionModal: () => void;
+}
+
+export const TransactionsTable = ({
+  handleOpenEditTransactionModal,
+  handleOpenDeleteTransactionModal,
+}: Props) => {
   const { transactions } = useTransactions();
 
   return (
@@ -14,6 +23,7 @@ export const TransactionsTable = () => {
             <th>Valor</th>
             <th>Categoria</th>
             <th>Data</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -30,6 +40,24 @@ export const TransactionsTable = () => {
                 <td>{category}</td>
                 <td>
                   {new Intl.DateTimeFormat('pt-BR').format(new Date(createdAt))}
+                </td>
+                <td className="actions">
+                  <div className="action-btns">
+                    <ActionBtn
+                      btnType="edit"
+                      onClick={() => handleOpenEditTransactionModal()}
+                    >
+                      <PencilSimple size={20} weight="bold" className="icon" />
+                    </ActionBtn>
+                    <ActionBtn
+                      btnType="trash"
+                      onClick={() =>
+                        handleOpenDeleteTransactionModal(String(_id))
+                      }
+                    >
+                      <TrashSimple size={20} weight="bold" className="icon" />
+                    </ActionBtn>
+                  </div>
                 </td>
               </tr>
             )

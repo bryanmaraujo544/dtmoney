@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { useGetUsersQuery } from '../../graphql/generated';
 import { Dashboard } from '../../components/Dashboard';
 import { Header } from '../../components/Header';
 import { NewTransactionModal } from '../../components/NewTransactionModal';

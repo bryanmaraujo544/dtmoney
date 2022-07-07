@@ -33,6 +33,30 @@ export const Container = styled.div`
       &.withdraw {
         color: var(--red);
       }
+
+      &.actions {
+        width: 0;
+      }
+
+      .action-btns {
+        display: flex;
+        gap: 0.5rem;
+      }
     }
+  }
+`;
+
+export const ActionBtn = styled.button<{ btnType: 'edit' | 'trash' }>`
+  border: 0;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  color: var(--text-body);
+
+  transition: color 0.2s;
+
+  &:hover {
+    color: ${({ btnType }) =>
+      btnType === 'edit' ? 'var(--blue)' : 'var(--red)'};
   }
 `;
