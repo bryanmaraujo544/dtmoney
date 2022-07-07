@@ -17,9 +17,9 @@ export const TransactionsTable = () => {
           </tr>
         </thead>
         <tbody>
-          {transactions.map(
-            ({ id, type, title, amount, category, createdAt }) => (
-              <tr key={id}>
+          {transactions?.map(
+            ({ _id, type, title, amount, category, createdAt }) => (
+              <tr key={_id}>
                 <td>{title}</td>
                 <td className={type}>
                   {new Intl.NumberFormat('pt-BR', {

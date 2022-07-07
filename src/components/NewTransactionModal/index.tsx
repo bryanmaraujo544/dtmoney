@@ -6,6 +6,7 @@ import closeImg from '../../assets/close.svg';
 import incomeImg from '../../assets/income.svg';
 import outcomeImg from '../../assets/outcome.svg';
 import { useTransactions } from '../../hooks/useTransactions';
+import { useUser } from '../../hooks/useUser';
 
 interface Props {
   isOpen: boolean;
@@ -19,11 +20,13 @@ export const NewTransactionModal = ({ isOpen, onRequestClose }: Props) => {
   const [category, setCategory] = useState('');
 
   const { createTransaction } = useTransactions();
+  const { _id } = useUser();
 
   async function handleCreateNewTransaction(e: FormEvent) {
     e.preventDefault();
 
     await createTransaction({
+      author: _id,
       title,
       amount,
       category,

@@ -14,6 +14,22 @@ export const Content = styled.div`
   align-items: center;
   justify-content: space-between;
 
+  div {
+    display: flex;
+    align-items: center;
+
+    p {
+      color: var(--shape);
+      font-weight: 600;
+      background: var(--blue);
+      border-radius: 0.25rem;
+      height: 3rem;
+      display: flex;
+      align-items: center;
+      padding: 0 2rem;
+    }
+  }
+
   button {
     font-size: 1rem;
     color: #fff;

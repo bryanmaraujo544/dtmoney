@@ -9,9 +9,7 @@ import { formatToCurrency } from '../../utils/formatToCurrency';
 export const Summary = () => {
   const { transactions } = useTransactions();
 
-  console.log({ transactions });
-
-  const summary = transactions.reduceRight(
+  const summary = transactions?.reduce(
     (acc, transaction) => {
       if (transaction.type === 'deposit') {
         return {
@@ -34,7 +32,9 @@ export const Summary = () => {
     }
   );
 
-  console.log(summary);
+  if (!transactions) {
+    return <h1>Loading</h1>;
+  }
 
   return (
     <Container>

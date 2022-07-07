@@ -1,0 +1,22 @@
+mutation createTransaction(
+  $title: String!
+  $type: String!
+  $category: String!
+  $amount: Float!
+  $author: ID!
+) {
+  createTransaction(
+    title: $title
+    type: $type
+    category: $category
+    amount: $amount
+    author: $author
+  ) {
+    _id
+    title
+    amount
+    category
+    type
+    createdAt
+  }
+}

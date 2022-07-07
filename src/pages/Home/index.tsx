@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { Dashboard } from '../../components/Dashboard';
 import { Header } from '../../components/Header';
@@ -9,8 +10,14 @@ export const Home = () => {
   const [isNewTransactionModalOpen, setIsNewTransactionModalOpen] =
     useState(false);
 
-  const data = useGetUsersQuery();
-  console.log('users', data);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const id = localStorage.getItem('@id');
+    if (!id) {
+      navigate('/login');
+    }
+  }, []);
 
   function handleOpenNewTransactionModal() {
     setIsNewTransactionModalOpen(true);

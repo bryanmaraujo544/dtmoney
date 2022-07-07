@@ -1,0 +1,10 @@
+query GetTransactionsByUserId($userId: ID!) {
+  getTransactionsByUserId(userId: $userId) {
+    _id
+    title
+    type
+    category
+    amount
+    createdAt
+  }
+}

@@ -9,6 +9,7 @@ import { ApolloProvider } from '@apollo/client';
 
 import 'react-toastify/dist/ReactToastify.css';
 import { Toast } from './components/Toast';
+import { UserProvider } from './hooks/useUser';
 
 Modal.setAppElement('#root');
 
@@ -16,11 +17,13 @@ export function App() {
   return (
     <>
       <ApolloProvider client={client}>
-        <TransactionsProvider>
-          <BrowserRouter>
-            <Router />
-          </BrowserRouter>
-        </TransactionsProvider>
+        <UserProvider>
+          <TransactionsProvider>
+            <BrowserRouter>
+              <Router />
+            </BrowserRouter>
+          </TransactionsProvider>
+        </UserProvider>
       </ApolloProvider>
       <GlobalStyle />
       <Toast

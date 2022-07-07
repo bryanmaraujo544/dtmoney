@@ -5,10 +5,15 @@ import {
   ReactNode,
   useContext,
 } from 'react';
+import {
+  useCreateTransactionMutation,
+  useCreateUserMutation,
+  useGetTransactionsByUserIdQuery,
+} from '../graphql/generated';
 import { api } from '../services/api';
 
 interface Transaction {
-  id: number;
+  _id: number;
   title: string;
   type: 'deposit' | 'withdraw';
   category: string;
@@ -16,7 +21,9 @@ interface Transaction {
   createdAt: string;
 }
 
-type TransactionInput = Omit<Transaction, 'id' | 'createdAt'>;
+interface TransactionInput extends Omit<Transaction, '_id' | 'createdAt'> {
+  author: string;
+}
 
 interface TransactionsContextData {
   transactions: Transaction[];
@@ -30,26 +37,53 @@ const TransactionsContext = createContext<TransactionsContextData>(
 export const TransactionsProvider = ({ children }: { children: ReactNode }) => {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
 
+  const { data } = useGetTransactionsByUserIdQuery({
+    variables: {
+      userId: '62c4df898bd5bae28aa165b7',
+    },
+  });
+  const [createTransaction, { loading: isCreatingTransaction }] =
+    useCreateTransactionMutation();
+
   useEffect(() => {
-    (async () => {
-      const { data } = await api.get('/transactions');
-      setTransactions(data.transactions);
-    })();
-  }, []);
+    const userTransactions =
+      data?.getTransactionsByUserId as unknown as Transaction[];
 
-  async function createTransaction(data: TransactionInput) {
-    const response = await api.post('/transactions', {
-      ...data,
-      createdAt: new Date(),
+    // console.log({ userTransactions });
+
+    setTransactions(userTransactions);
+  }, [data]);
+
+  async function handleCreateTransaction({
+    title,
+    amount,
+    category,
+    type,
+    author,
+  }: TransactionInput) {
+    // const response = await api.post('/transactions', {
+    //   ...data,
+    //   createdAt: new Date(),
+    // });
+    // const { transaction } = response.data;
+    const { data } = await createTransaction({
+      variables: {
+        title,
+        amount,
+        category,
+        type,
+        author,
+      },
     });
-    const { transaction } = response.data;
 
+    const transaction = data?.createTransaction as unknown as Transaction;
     setTransactions((prev) => [...prev, transaction]);
-    // setTransactions((prev) => [...prev, data]);
   }
 
   return (
-    <TransactionsContext.Provider value={{ transactions, createTransaction }}>
+    <TransactionsContext.Provider
+      value={{ transactions, createTransaction: handleCreateTransaction }}
+    >
       {children}
     </TransactionsContext.Provider>
   );
