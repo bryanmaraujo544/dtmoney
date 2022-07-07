@@ -4,6 +4,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { useLoginMutation } from '../../graphql/generated';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+import { useUser } from '../../hooks/useUser';
 
 interface Inputs {
   email: string;
@@ -19,6 +20,7 @@ export const Login = () => {
 
   const [loginUser, { loading }] = useLoginMutation();
   const navigate = useNavigate();
+  const { setUser } = useUser();
 
   const handleLogin: SubmitHandler<Inputs> = async ({ email, password }) => {
     try {
@@ -30,6 +32,8 @@ export const Login = () => {
       });
       const userId = data?.login?._id as string;
       localStorage.setItem('@id', userId);
+
+      setUser({ _id: userId, firstName: data?.login?.firstName as string });
 
       toast.success('Logged!');
 
@@ -59,7 +63,7 @@ export const Login = () => {
         <InputGroup>
           <label htmlFor="password">Password</label>
           <input
-            type="text"
+            type="password"
             id="password"
             placeholder="123"
             {...register('password', { required: true })}

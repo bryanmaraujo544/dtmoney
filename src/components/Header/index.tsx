@@ -12,7 +12,9 @@ export const Header = ({
   handleOpenNewTransactionModal,
   handleOpenSignOutModal,
 }: Props) => {
-  const { _id, firstName } = useUser();
+  const {
+    user: { _id, firstName },
+  } = useUser();
 
   console.log({ _id, firstName });
 

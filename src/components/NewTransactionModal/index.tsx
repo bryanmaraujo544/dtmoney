@@ -20,7 +20,9 @@ export const NewTransactionModal = ({ isOpen, onRequestClose }: Props) => {
   const [category, setCategory] = useState('');
 
   const { createTransaction } = useTransactions();
-  const { _id } = useUser();
+  const {
+    user: { _id },
+  } = useUser();
 
   async function handleCreateNewTransaction(e: FormEvent) {
     e.preventDefault();

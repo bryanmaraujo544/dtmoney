@@ -1,4 +1,12 @@
-import { createContext, ReactNode, useContext } from 'react';
+import {
+  createContext,
+  Dispatch,
+  ReactNode,
+  SetStateAction,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 import { useGetUserByIdQuery } from '../graphql/generated';
 
 interface User {
@@ -6,13 +14,19 @@ interface User {
   firstName: string;
 }
 
-const UserContext = createContext({} as User);
+interface UserContextData {
+  user: User;
+  setUser: Dispatch<SetStateAction<User>>;
+}
+
+const UserContext = createContext({} as UserContextData);
 
 interface Props {
   children: ReactNode;
 }
 
 export const UserProvider = ({ children }: Props) => {
+  const [user, setUser] = useState<User>({} as User);
   const _id = localStorage.getItem('@id');
 
   const { data } = useGetUserByIdQuery({
@@ -21,9 +35,16 @@ export const UserProvider = ({ children }: Props) => {
     },
   });
 
+  useEffect(() => {
+    setUser({ _id: _id as string, firstName: data?.user.firstName as string });
+  }, [data]);
+
   return (
     <UserContext.Provider
-      value={{ _id: _id as string, firstName: data?.user.firstName as string }}
+      value={{
+        user,
+        setUser,
+      }}
     >
       {children}
     </UserContext.Provider>

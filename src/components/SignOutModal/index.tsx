@@ -1,5 +1,6 @@
 import ReactModal from 'react-modal';
 import { useNavigate } from 'react-router-dom';
+import { useUser } from '../../hooks/useUser';
 import { Container, Button } from './styles';
 
 interface Props {
@@ -9,9 +10,11 @@ interface Props {
 
 export const SignOutModal = ({ isOpen, onRequestClose }: Props) => {
   const navigate = useNavigate();
+  const { setUser } = useUser();
 
   function handleLogout() {
     localStorage.removeItem('@id');
+    setUser({ _id: '', firstName: '' });
     navigate('/login');
   }
 

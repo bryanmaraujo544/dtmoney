@@ -7,10 +7,9 @@ import {
 } from 'react';
 import {
   useCreateTransactionMutation,
-  useCreateUserMutation,
   useGetTransactionsByUserIdQuery,
 } from '../graphql/generated';
-import { api } from '../services/api';
+import { useUser } from './useUser';
 
 interface Transaction {
   _id: number;
@@ -36,10 +35,13 @@ const TransactionsContext = createContext<TransactionsContextData>(
 
 export const TransactionsProvider = ({ children }: { children: ReactNode }) => {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const {
+    user: { _id },
+  } = useUser();
 
   const { data } = useGetTransactionsByUserIdQuery({
     variables: {
-      userId: '62c4df898bd5bae28aa165b7',
+      userId: _id,
     },
   });
   const [createTransaction, { loading: isCreatingTransaction }] =
