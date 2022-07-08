@@ -3,9 +3,20 @@ import { useTransactions } from '../../hooks/useTransactions';
 
 import { Container, ActionBtn } from './styles';
 
+interface Transaction {
+  _id: string;
+  title: string;
+  type: 'deposit' | 'withdraw';
+  category: string;
+  amount: number;
+  createdAt: string;
+}
+
 interface Props {
   handleOpenDeleteTransactionModal: (transactionId: string) => void;
-  handleOpenEditTransactionModal: () => void;
+  handleOpenEditTransactionModal: (
+    transaction: Omit<Transaction, 'createdAt'>
+  ) => void;
 }
 
 export const TransactionsTable = ({
@@ -19,10 +30,10 @@ export const TransactionsTable = ({
       <table>
         <thead>
           <tr>
-            <th>Título</th>
-            <th>Valor</th>
-            <th>Categoria</th>
-            <th>Data</th>
+            <th>Title</th>
+            <th>Amount</th>
+            <th>Category</th>
+            <th>Date</th>
             <th></th>
           </tr>
         </thead>
@@ -45,7 +56,15 @@ export const TransactionsTable = ({
                   <div className="action-btns">
                     <ActionBtn
                       btnType="edit"
-                      onClick={() => handleOpenEditTransactionModal()}
+                      onClick={() =>
+                        handleOpenEditTransactionModal({
+                          _id,
+                          title,
+                          amount,
+                          category,
+                          type,
+                        })
+                      }
                     >
                       <PencilSimple size={20} weight="bold" className="icon" />
                     </ActionBtn>

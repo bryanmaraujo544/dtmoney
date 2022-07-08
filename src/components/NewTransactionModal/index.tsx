@@ -19,7 +19,7 @@ export const NewTransactionModal = ({ isOpen, onRequestClose }: Props) => {
   const [amount, setAmount] = useState(0);
   const [category, setCategory] = useState('');
 
-  const { createTransaction } = useTransactions();
+  const { createTransaction, isCreatingTransaction } = useTransactions();
   const {
     user: { _id },
   } = useUser();
@@ -54,18 +54,18 @@ export const NewTransactionModal = ({ isOpen, onRequestClose }: Props) => {
         onClick={onRequestClose}
         className="react-modal-close"
       >
-        <img src={closeImg} alt="Fechar modal" />
+        <img src={closeImg} alt="Close modal" />
       </button>
       <Container onSubmit={handleCreateNewTransaction}>
-        <h2>Cadastrar transação</h2>
+        <h2>Create transaction</h2>
 
         <input
-          placeholder="Título"
+          placeholder="Title"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
         <input
-          placeholder="Valor"
+          placeholder="Value"
           type="number"
           value={amount}
           onChange={(e) => setAmount(Number(e.target.value))}
@@ -78,8 +78,8 @@ export const NewTransactionModal = ({ isOpen, onRequestClose }: Props) => {
             isActive={type === 'deposit'}
             activeColor="green"
           >
-            <img src={incomeImg} alt="Entrada" />
-            <span>Entrada</span>
+            <img src={incomeImg} alt="Income" />
+            <span>Income</span>
           </RadioBox>
           <RadioBox
             type="button"
@@ -87,17 +87,19 @@ export const NewTransactionModal = ({ isOpen, onRequestClose }: Props) => {
             isActive={type === 'withdraw'}
             activeColor="red"
           >
-            <img src={outcomeImg} alt="Saida" />
-            <span>Saída</span>
+            <img src={outcomeImg} alt="Withdraw" />
+            <span>Withdraw</span>
           </RadioBox>
         </TransactionTypeContainer>
 
         <input
-          placeholder="Categoria"
+          placeholder="Category"
           value={category}
           onChange={(e) => setCategory(e.target.value)}
         />
-        <button type="submit">Cadastrar</button>
+        <button type="submit" disabled={isCreatingTransaction}>
+          Create
+        </button>
       </Container>
     </Modal>
   );

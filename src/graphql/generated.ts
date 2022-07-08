@@ -204,6 +204,17 @@ export type LoginMutationVariables = Exact<{
 
 export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'LoginReturn', _id: string, firstName?: string | null } };
 
+export type UpdateTransactionMutationVariables = Exact<{
+  id: Scalars['ID'];
+  title?: InputMaybe<Scalars['String']>;
+  category?: InputMaybe<Scalars['String']>;
+  type?: InputMaybe<Scalars['String']>;
+  amount?: InputMaybe<Scalars['Float']>;
+}>;
+
+
+export type UpdateTransactionMutation = { __typename?: 'Mutation', updateTransaction: { __typename?: 'Transaction', _id: string, title?: string | null, category?: string | null, type?: string | null, createdAt?: string | null, amount?: number | null } };
+
 export type GetTransactionsByUserIdQueryVariables = Exact<{
   userId: Scalars['ID'];
 }>;
@@ -373,6 +384,54 @@ export function useLoginMutation(baseOptions?: Apollo.MutationHookOptions<LoginM
 export type LoginMutationHookResult = ReturnType<typeof useLoginMutation>;
 export type LoginMutationResult = Apollo.MutationResult<LoginMutation>;
 export type LoginMutationOptions = Apollo.BaseMutationOptions<LoginMutation, LoginMutationVariables>;
+export const UpdateTransactionDocument = gql`
+    mutation UpdateTransaction($id: ID!, $title: String, $category: String, $type: String, $amount: Float) {
+  updateTransaction(
+    _id: $id
+    title: $title
+    category: $category
+    type: $type
+    amount: $amount
+  ) {
+    _id
+    title
+    category
+    type
+    createdAt
+    amount
+  }
+}
+    `;
+export type UpdateTransactionMutationFn = Apollo.MutationFunction<UpdateTransactionMutation, UpdateTransactionMutationVariables>;
+
+/**
+ * __useUpdateTransactionMutation__
+ *
+ * To run a mutation, you first call `useUpdateTransactionMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateTransactionMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateTransactionMutation, { data, loading, error }] = useUpdateTransactionMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      title: // value for 'title'
+ *      category: // value for 'category'
+ *      type: // value for 'type'
+ *      amount: // value for 'amount'
+ *   },
+ * });
+ */
+export function useUpdateTransactionMutation(baseOptions?: Apollo.MutationHookOptions<UpdateTransactionMutation, UpdateTransactionMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateTransactionMutation, UpdateTransactionMutationVariables>(UpdateTransactionDocument, options);
+      }
+export type UpdateTransactionMutationHookResult = ReturnType<typeof useUpdateTransactionMutation>;
+export type UpdateTransactionMutationResult = Apollo.MutationResult<UpdateTransactionMutation>;
+export type UpdateTransactionMutationOptions = Apollo.BaseMutationOptions<UpdateTransactionMutation, UpdateTransactionMutationVariables>;
 export const GetTransactionsByUserIdDocument = gql`
     query GetTransactionsByUserId($userId: ID!) {
   getTransactionsByUserId(userId: $userId) {

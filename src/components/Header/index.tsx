@@ -13,10 +13,8 @@ export const Header = ({
   handleOpenSignOutModal,
 }: Props) => {
   const {
-    user: { _id, firstName },
+    user: { firstName },
   } = useUser();
-
-  console.log({ _id, firstName });
 
   return (
     <Container>
@@ -27,21 +25,16 @@ export const Header = ({
             onClick={handleOpenNewTransactionModal}
             type="button"
           >
-            Nova Transação
+            New transaction
           </NewTransactionBtn>
 
-          <p>Olá, {firstName}</p>
+          <p>Hello, {firstName}</p>
           <button
             className="sign-out-btn"
             type="button"
             onClick={handleOpenSignOutModal}
           >
-            <SignOut
-              size={26}
-              weight="bold"
-              // color="var(--shape)"
-              className="icon"
-            />
+            <SignOut size={26} weight="bold" className="icon" />
           </button>
         </div>
       </Content>

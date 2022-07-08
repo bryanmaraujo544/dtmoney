@@ -5,6 +5,15 @@ import { Summary } from '../Summary';
 import { TransactionsTable } from '../TransactionsTable';
 import { Container } from './styles';
 
+interface Transaction {
+  _id: string;
+  title: string;
+  type: 'deposit' | 'withdraw';
+  category: string;
+  amount: number;
+  createdAt: string;
+}
+
 export const Dashboard = () => {
   const [isEditTransactionModalOpen, setIsEditTransactionModalOpen] =
     useState(false);
@@ -12,9 +21,15 @@ export const Dashboard = () => {
     useState(false);
 
   const [transactionIdToDelete, setTransactionIdToDelete] = useState('');
+  const [transactionToEdit, setTransactionToEdit] = useState<
+    Omit<Transaction, 'createdAt'>
+  >({} as Transaction);
 
-  function handleOpenEditTransactionModal() {
+  function handleOpenEditTransactionModal(
+    transaction: Omit<Transaction, 'createdAt'>
+  ) {
     setIsEditTransactionModalOpen(true);
+    setTransactionToEdit(transaction);
   }
 
   function handleCloseEditTransactionModal() {
@@ -41,6 +56,7 @@ export const Dashboard = () => {
       <EditTransactionModal
         isOpen={isEditTransactionModalOpen}
         onRequestClose={handleCloseEditTransactionModal}
+        transactionToEdit={transactionToEdit}
       />
       <DeleteTransactionModal
         isOpen={isDeleteTransactionModalOpen}

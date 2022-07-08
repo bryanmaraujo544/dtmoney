@@ -40,15 +40,15 @@ export const Summary = () => {
     <Container>
       <div>
         <header>
-          <p>Entradas</p>
-          <img src={incomeImg} alt="Entradas" />
+          <p>Incomes</p>
+          <img src={incomeImg} alt="Incomes" />
         </header>
         <strong>{formatToCurrency(summary.deposits)}</strong>
       </div>
       <div>
         <header>
-          <p>Saídas</p>
-          <img src={outcomeImg} alt="Saídas" />
+          <p>Outcomes</p>
+          <img src={outcomeImg} alt="Outcomes" />
         </header>
         <strong>{formatToCurrency(summary.withdraws)}</strong>
       </div>

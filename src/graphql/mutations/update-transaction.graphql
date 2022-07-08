@@ -1,0 +1,22 @@
+mutation UpdateTransaction(
+  $id: ID!
+  $title: String
+  $category: String
+  $type: String
+  $amount: Float
+) {
+  updateTransaction(
+    _id: $id
+    title: $title
+    category: $category
+    type: $type
+    amount: $amount
+  ) {
+    _id
+    title
+    category
+    type
+    createdAt
+    amount
+  }
+}

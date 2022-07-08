@@ -10,6 +10,7 @@ import {
   useCreateTransactionMutation,
   useDeleteTransactionMutation,
   useGetTransactionsByUserIdQuery,
+  useUpdateTransactionMutation,
 } from '../graphql/generated';
 import { useUser } from './useUser';
 
@@ -30,6 +31,12 @@ interface TransactionsContextData {
   transactions: Transaction[];
   createTransaction: (transaction: TransactionInput) => Promise<void>;
   deleteTransaction: (id: string) => Promise<void>;
+  updateTransaction: (
+    transaction: Omit<Transaction, 'createdAt'>
+  ) => Promise<void>;
+  isCreatingTransaction: boolean;
+  isDeletingTransaction: boolean;
+  isUpdatingTransaction: boolean;
 }
 
 const TransactionsContext = createContext<TransactionsContextData>(
@@ -51,12 +58,12 @@ export const TransactionsProvider = ({ children }: { children: ReactNode }) => {
     useCreateTransactionMutation();
   const [deleteTransaction, { loading: isDeletingTransaction }] =
     useDeleteTransactionMutation();
+  const [updateTransaction, { loading: isUpdatingTransaction }] =
+    useUpdateTransactionMutation();
 
   useEffect(() => {
     const userTransactions =
       data?.getTransactionsByUserId as unknown as Transaction[];
-
-    // console.log({ userTransactions });
 
     setTransactions(userTransactions);
   }, [data]);
@@ -106,12 +113,45 @@ export const TransactionsProvider = ({ children }: { children: ReactNode }) => {
     }
   }
 
+  async function handleUpdateTransaction(
+    transaction: Omit<Transaction, 'createdAt'>
+  ) {
+    try {
+      const { data } = await updateTransaction({
+        variables: {
+          id: transaction._id,
+          amount: Number(transaction.amount),
+          category: transaction.category,
+          title: transaction.title,
+          type: transaction.type,
+        },
+      });
+
+      setTransactions((prev) =>
+        prev.map((oldTransaction) => {
+          if (oldTransaction._id === transaction._id) {
+            return data?.updateTransaction as Transaction;
+          }
+          return oldTransaction;
+        })
+      );
+
+      toast.success('Transaction updated!', { autoClose: 500 });
+    } catch (err: any) {
+      toast.error(err.message);
+    }
+  }
+
   return (
     <TransactionsContext.Provider
       value={{
         transactions,
         createTransaction: handleCreateTransaction,
         deleteTransaction: handleDeleteTransaction,
+        updateTransaction: handleUpdateTransaction,
+        isCreatingTransaction,
+        isDeletingTransaction,
+        isUpdatingTransaction,
       }}
     >
       {children}
