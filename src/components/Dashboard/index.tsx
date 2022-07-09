@@ -78,7 +78,7 @@ export const Dashboard = () => {
   const filteredBySearch = filteredByDate?.filter((transaction) => {
     const str = (transaction.title + transaction.category).toLowerCase();
 
-    if (str.includes(search)) {
+    if (str.includes(search.toLowerCase())) {
       return true;
     }
     return false;

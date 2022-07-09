@@ -1,4 +1,4 @@
-schema: http://localhost:4000
+schema: https://dtmoney-api.herokuapp.com
 documents: './src/graphql/**/*.graphql'
 generates:
   ./src/graphql/generated.ts:
