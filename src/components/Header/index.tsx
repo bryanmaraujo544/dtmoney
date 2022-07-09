@@ -1,6 +1,6 @@
 import logoImg from '../../assets/logo.svg';
 import { useUser } from '../../hooks/useUser';
-import { Container, Content, NewTransactionBtn } from './styles';
+import { Container, Content, NewTransactionBtn, Actions } from './styles';
 import { SignOut } from 'phosphor-react';
 
 interface Props {
@@ -20,7 +20,7 @@ export const Header = ({
     <Container>
       <Content>
         <img src={logoImg} alt="dt-money" />
-        <div>
+        <Actions>
           <NewTransactionBtn
             onClick={handleOpenNewTransactionModal}
             type="button"
@@ -28,15 +28,17 @@ export const Header = ({
             New transaction
           </NewTransactionBtn>
 
-          <p>Hello, {firstName}</p>
-          <button
-            className="sign-out-btn"
-            type="button"
-            onClick={handleOpenSignOutModal}
-          >
-            <SignOut size={26} weight="bold" className="icon" />
-          </button>
-        </div>
+          <div>
+            <p>Hello, {firstName}</p>
+            <button
+              className="sign-out-btn"
+              type="button"
+              onClick={handleOpenSignOutModal}
+            >
+              <SignOut size={26} weight="bold" className="icon" />
+            </button>
+          </div>
+        </Actions>
       </Content>
     </Container>
   );
