@@ -1,10 +1,11 @@
-import { Container, Form, InputGroup } from './styles';
+import { Container, Form, InputGroup, BottomText } from './styles';
 import logoImg from '../../assets/logo.svg';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useLoginMutation } from '../../graphql/generated';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { useUser } from '../../hooks/useUser';
+import { Link } from 'react-router-dom';
 
 interface Inputs {
   email: string;
@@ -71,9 +72,12 @@ export const Login = () => {
           {errors.password && <span>* Field is required</span>}
         </InputGroup>
         <button type="submit" disabled={loading}>
-          Register
+          Login
         </button>
       </Form>
+      <BottomText>
+        Doesn't have an account? <Link to="/register">Sign-Up</Link>
+      </BottomText>
     </Container>
   );
 };

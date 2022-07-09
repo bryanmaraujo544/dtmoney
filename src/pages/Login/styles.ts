@@ -11,16 +11,15 @@ export const Container = styled.div`
 `;
 
 export const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   padding: 0.25rem;
   background: var(--blue);
   width: 100%;
   max-width: 40rem;
-  padding: 1.5rem;
+  padding: 2rem 1.5rem;
   border-radius: 0.25rem;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   gap: 1.5rem;
 
   header {
@@ -96,5 +95,20 @@ export const InputGroup = styled.div`
   span {
     font-size: 0.8rem;
     color: var(--background);
+  }
+`;
+
+export const BottomText = styled.p`
+  margin-top: 1rem;
+  color: var(--text-title);
+
+  a {
+    font-weight: 600;
+    color: var(--blue);
+    transition: color 0.2s;
+
+    &:hover {
+      color: var(--blue-light);
+    }
   }
 `;

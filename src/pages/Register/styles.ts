@@ -98,3 +98,18 @@ export const InputGroup = styled.div`
     color: var(--background);
   }
 `;
+
+export const BottomText = styled.p`
+  margin-top: 1rem;
+  color: var(--text-title);
+
+  a {
+    font-weight: 600;
+    color: var(--blue);
+    transition: color 0.2s;
+
+    &:hover {
+      color: var(--blue-light);
+    }
+  }
+`;

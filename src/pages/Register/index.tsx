@@ -1,11 +1,11 @@
 import { useState } from 'react';
-import { Container, Form, InputGroup } from './styles';
+import { Container, Form, InputGroup, BottomText } from './styles';
 
 import logoImg from '../../assets/logo.svg';
 import { useCreateUserMutation } from '../../graphql/generated';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 interface Inputs {
   firstName: string;
@@ -111,6 +111,9 @@ export const Register = () => {
           Register
         </button>
       </Form>
+      <BottomText>
+        Already have an account? <Link to="/login">Sign-In</Link>
+      </BottomText>
     </Container>
   );
 };
