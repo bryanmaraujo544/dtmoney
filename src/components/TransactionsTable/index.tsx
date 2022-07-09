@@ -17,13 +17,15 @@ interface Props {
   handleOpenEditTransactionModal: (
     transaction: Omit<Transaction, 'createdAt'>
   ) => void;
+  transactions: Transaction[];
 }
 
 export const TransactionsTable = ({
   handleOpenEditTransactionModal,
   handleOpenDeleteTransactionModal,
+  transactions,
 }: Props) => {
-  const { transactions } = useTransactions();
+  // const { transactions } = useTransactions();
 
   return (
     <Container>

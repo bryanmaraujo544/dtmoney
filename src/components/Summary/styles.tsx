@@ -32,3 +32,8 @@ export const Container = styled.section`
     }
   }
 `;
+
+export const LastBox = styled.div<{ isNegative: boolean }>`
+  background: ${({ isNegative }) =>
+    isNegative ? 'var(--red) !important' : 'var(--green) !important'};
+`;

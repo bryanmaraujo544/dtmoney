@@ -1,4 +1,4 @@
-import { Container } from './styles';
+import { Container, LastBox } from './styles';
 
 import incomeImg from '../../assets/income.svg';
 import outcomeImg from '../../assets/outcome.svg';
@@ -52,13 +52,13 @@ export const Summary = () => {
         </header>
         <strong>{formatToCurrency(summary.withdraws)}</strong>
       </div>
-      <div>
+      <LastBox isNegative={summary.total < 0}>
         <header>
           <p>Total</p>
           <img src={totalImg} alt="Total" />
         </header>
         <strong>{formatToCurrency(summary.total)}</strong>
-      </div>
+      </LastBox>
     </Container>
   );
 };

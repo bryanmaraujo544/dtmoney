@@ -4,6 +4,8 @@ import {
   useEffect,
   ReactNode,
   useContext,
+  Dispatch,
+  SetStateAction,
 } from 'react';
 import { toast } from 'react-toastify';
 import {
@@ -29,6 +31,7 @@ interface TransactionInput extends Omit<Transaction, '_id' | 'createdAt'> {
 
 interface TransactionsContextData {
   transactions: Transaction[];
+  setTransactions: Dispatch<SetStateAction<Transaction[]>>;
   createTransaction: (transaction: TransactionInput) => Promise<void>;
   deleteTransaction: (id: string) => Promise<void>;
   updateTransaction: (
@@ -146,6 +149,7 @@ export const TransactionsProvider = ({ children }: { children: ReactNode }) => {
     <TransactionsContext.Provider
       value={{
         transactions,
+        setTransactions,
         createTransaction: handleCreateTransaction,
         deleteTransaction: handleDeleteTransaction,
         updateTransaction: handleUpdateTransaction,
